@@ -40,6 +40,13 @@ class User_model extends CI_Model {
         return $res;
     }
     
+    public function get_prospective_creditors($amount) {
+        $query = $this->db->select('username')
+                            ->where('max_amnt >=',$amount)
+                            ->get('users');
+        $creditors = $query->result();
+        return $creditors;                    
+    }
 
 }
 ?>
