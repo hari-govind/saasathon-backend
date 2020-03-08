@@ -30,4 +30,10 @@ class Loan extends CI_Controller {
         $user = $this->session->user;
         $this->transaction_model->accept_request($req_num,$user);
     }
+
+    public function repay_loan() {
+        $user = $this->session->user;
+        $this->transaction_model->repay_loan($user);
+    }
+
 }

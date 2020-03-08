@@ -19,5 +19,6 @@ class User extends CI_Controller {
 
     public function login($username) {
         $this->session->set_userdata('user',$username);
+        echo "Successfully logged in as ".$username;
     }
 }

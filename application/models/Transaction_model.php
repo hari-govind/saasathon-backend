@@ -57,4 +57,17 @@ class Transaction_model extends CI_Model {
         $this->db->insert('activeloans',$data);
         echo "Success";
     }
+
+    public function repay_loan($user) {
+        $query = $this->db->select('*')
+                            ->where('receiver',$user)
+                            ->where('completed',0)
+                            ->get('activeloans');
+        $res = $query->row_array();
+        $res['completed'] = 1;
+        $this->db->replace('activeloans',$res);
+        echo "Success";
+    }
+
+    
 }
