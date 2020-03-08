@@ -36,4 +36,25 @@ class Transaction_model extends CI_Model {
         }
         return false;
     }
+
+    public function accept_request($req_num, $user) {
+        if($this->session->user === null) {
+            die('please login');
+        }
+        $req = $this->db->select('*')
+                        ->where('req_no',$req_num)
+                        ->where('to',$user)
+                        ->get('requests');
+        $req = $req->row_array();
+        $this->db->delete('requests',array('req_no'=>$req_num));
+        $data = array(
+            'receiver'=>$req['from'],
+            'giver'=>$user,
+            'date'=>$req['return_date'],
+            'amount'=>$req['cash'],
+            'repayment'=>$req['return_cash']
+        );
+        $this->db->insert('activeloans',$data);
+        echo "Success";
+    }
 }

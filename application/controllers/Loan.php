@@ -25,4 +25,9 @@ class Loan extends CI_Controller {
         $repay = $amount + 0.098*$amount;
         $this->transaction_model->request_credit($user,$amount,$repay_date,$repay);
     }
+
+    public function accept_request($req_num) {
+        $user = $this->session->user;
+        $this->transaction_model->accept_request($req_num,$user);
+    }
 }

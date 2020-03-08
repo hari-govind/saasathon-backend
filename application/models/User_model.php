@@ -13,7 +13,7 @@ class User_model extends CI_Model {
     }
 
     public function get_user_requests($username) {
-        $query = $this->db->select('from,cash,return_date,return_cash')
+        $query = $this->db->select('id,req_no,from,cash,return_date,return_cash')
                             ->where('to',$username)
                             ->get('requests');
         $reqs = $query->row_array();
@@ -28,18 +28,39 @@ class User_model extends CI_Model {
         return $reqs;
     }
 
+    public function get_loans_togive($username) {
+        $query = $this->db->select('*')
+                            ->where('receiver',$username)
+                            ->where('completed',0)
+                            ->get('activeloans');
+        return $query->result();
+    }
+
+    public function get_loans_toget($username) {
+        $query = $this->db->select('*')
+                            ->where('giver',$username)
+                            ->where('completed',0)
+                            ->get('activeloans');
+        return $query->result();
+    }
+
     public function get_user($username) {
         $basic = $this->get_basic_user($username);
         $requests = $this->get_user_requests($username);
         $balance = $this->get_balance_info($username);
+        $give = $this->get_loans_togive($username);
+        $get = $this->get_loans_toget($username);
         $res = Array(
             'basic'=>$basic,
             'balance'=>$balance,
-            'requests'=>$requests
+            'requests'=>$requests,
+            'give'=>$give,
+            'get'=>$get
         );
         return $res;
     }
-    
+
+
     public function get_prospective_creditors($amount) {
         $query = $this->db->select('username')
                             ->where('max_amnt >=',$amount)
