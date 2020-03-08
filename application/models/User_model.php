@@ -72,9 +72,10 @@ class User_model extends CI_Model {
     }
 
 
-    public function get_prospective_creditors($amount) {
+    public function get_prospective_creditors($amount,$username) {
         $query = $this->db->select('username')
                             ->where('max_amnt >=',$amount)
+                            ->where('username !=',$username)
                             ->get('users');
         $creditors = $query->result();
         return $creditors;                    

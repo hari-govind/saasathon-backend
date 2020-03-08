@@ -8,7 +8,11 @@ class Loan extends CI_Controller {
     }
 
     public function index(){
-        echo "LOAN API";
+        echo "LOAN API<br>";
+        echo "/request_loan/amount/repay_date<br>";
+        echo "/accept_request/req_num<br>";
+        echo "/repay_loan";
+
     }
 
     public function request_loan($amount,$repay_date) {
@@ -36,4 +40,7 @@ class Loan extends CI_Controller {
         $this->transaction_model->repay_loan($user);
     }
 
-}
+    public function loan_test(){
+        $this->transaction_model->transact_blockchain("a","B","c");
+    }
+ }
